@@ -221,7 +221,7 @@ public class Hotel {
         String str = "Hotel" + namaHotel + "\n" + "\n";
         for(int i = 0 ; i < bookedRooms.size(); i++){
             Pemesanan p = bookedRooms.get(i);
-            str = str + LocalTime.now().format(dtf).+ " : ";
+            str = str + LocalTime.now().format(dtf)+ " : ";
             str = str + p.getTamu().getNama() + ", " + p.getTamu().getEmail() + "\nNo. ";
             str = str + p.getRoom().getNomorKamar() + ", In=";
             str = str + p.getTanggalCheckIn() + ", Out=";
