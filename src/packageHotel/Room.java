@@ -109,7 +109,7 @@ public class Room {
      */
     @Override
     public String toString() {
-        return "Room{" + "nomorKamar=" + nomorKamar + ", tipeKamar=" + tipeKamar + ", harga=" + harga + ", status=" + status + '}';
+        return "Room{" + "nomorKamar=" + nomorKamar + ", tipeKamar=" + tipeKamar + ", \nharga=" + harga + ", status=" + status + '}';
     }
     
     

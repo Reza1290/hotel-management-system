@@ -6,7 +6,9 @@ package packageHotel;
 
 import java.util.List;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -100,6 +102,7 @@ public class Hotel {
             booked.getRoom().setStatus(true); // Make it Booked
             
             this.bookedRooms.add(booked);
+            System.out.println(this.toString());
             return true;
         }
         return false;
@@ -213,8 +216,21 @@ public class Hotel {
      */
     @Override
     public String toString() {
-        return "Hotel{" + "namaHotel=" + namaHotel + ", alamat=" + alamat + ", daftarKamar=" + daftarKamar + ", bookedRooms=" + bookedRooms + '}';
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+//        return "Hotel{" + "namaHotel=" + namaHotel + ", alamat=" + alamat + ", daftarKamar=" + daftarKamar + ", bookedRooms=" +  + '}';
+        String str = "Hotel" + namaHotel + "\n" + "\n";
+        for(int i = 0 ; i < bookedRooms.size(); i++){
+            Pemesanan p = bookedRooms.get(i);
+            str = str + LocalTime.now().format(dtf).+ " : ";
+            str = str + p.getTamu().getNama() + ", " + p.getTamu().getEmail() + "\nNo. ";
+            str = str + p.getRoom().getNomorKamar() + ", In=";
+            str = str + p.getTanggalCheckIn() + ", Out=";
+            str = str + p.getTanggalCheckOut() + "\n" + "\n";
+            
+        }
+        
+        return str;
     }
 
-
+    
 }

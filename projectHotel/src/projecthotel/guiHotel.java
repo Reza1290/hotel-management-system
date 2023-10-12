@@ -15,10 +15,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -28,7 +26,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.Popup;
 import packageHotel.Room;
 
 import packageHotel.Hotel;
@@ -53,13 +50,10 @@ public class guiHotel extends javax.swing.JFrame {
         this.filterType = new LinkedList<String>();
         this.bookType = new LinkedList<Boolean>();
         this.listTamu = new Vector<Tamu>();
-
-        this.bookType.add(false);
-
-        initComponents();
-        labelSearch.setEnabled(false);
-        logField.setEditable(false);
         
+        this.bookType.add(false);
+        
+        initComponents();
         namaLabel.setText("HOTEL " + this.hotel.getNamaHotel());
         jalanLabel.setText(this.hotel.getAlamat());
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
@@ -76,37 +70,39 @@ public class guiHotel extends javax.swing.JFrame {
 
     }
 
-
     private void inputData() {
-        Room[] rooms = new Room[25];
-        for (int i = 0; i < rooms.length; i++) {
-            int roomNumber = 100 + i;
-            String roomType = getRandomRoomType();
-            int roomPrice = 300 + (i % 5) * 100;
-            Room room = new Room(roomNumber, roomType, roomPrice);
-            rooms[i] = room;
-            System.out.println(this.hotel.tambahKamar(room));
-        }
+        Room r1 = new Room(101, "King", 400);
+        Room r2 = new Room(102, "Twin", 600);
+        Room r3 = new Room(103, "Deluxe", 500);
+        Room r4 = new Room(104, "Single", 300);
 
-        List<Tamu> tamuList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            String[] names = {"John", "Alice", "Bob", "Eva", "Charlie", "Sophia", "David", "Olivia"};
-            String name = names[(i % names.length)];
-            String address = "Jl. " + name + " Street";
-            String phoneNumber = "62824" + (1000000 + i * 1111111);
-            String email = name.toLowerCase() + i + "@example.com";
+        Room r5 = new Room(105, "Queen", 300);
+        Room r6 = new Room(106, "Single", 300);
+        Room r7 = new Room(107, "Single", 300);
+        Room r8 = new Room(108, "Single", 300);
+        Room r9 = new Room(109, "Single", 300);
 
-            Tamu user = new Tamu(name, address, phoneNumber, email);
-            tamuList.add(user);
-        }
+        System.out.println(this.hotel.tambahKamar(r1));
+        System.out.println(this.hotel.tambahKamar(r2));
+        System.out.println(this.hotel.tambahKamar(r3));
+        System.out.println(this.hotel.tambahKamar(r4));
+        System.out.println(this.hotel.tambahKamar(r5));
+        System.out.println(this.hotel.tambahKamar(r6));
+        System.out.println(this.hotel.tambahKamar(r7));
+        System.out.println(this.hotel.tambahKamar(r8));
+        System.out.println(this.hotel.tambahKamar(r9));
 
-        this.listTamu.addAll(tamuList);
-    }
+        Tamu user1 = new Tamu("Budi", "Jl. Karang", "6282400003", "ayam@g.com");
+        Tamu user2 = new Tamu("Ari", "Jl. Karang", "6282400003", "ayam@g.com");
+        Tamu user3 = new Tamu("Ulki", "Jl. Karang", "6282400003", "ayam@g.com");
+        
+        this.listTamu.add(user1);
+        this.listTamu.add(user2);
+        this.listTamu.add(user3);
+        
+        this.hotel.pesanKamar(user1, r1, LocalDate.of(2023, Month.SEPTEMBER, 29), LocalDate.of(2023, Month.OCTOBER, 1));
+        this.hotel.pesanKamar(user2, r2, LocalDate.of(2023, Month.SEPTEMBER, 29), LocalDate.of(2023, Month.OCTOBER, 1));
 
-    private String getRandomRoomType() {
-        String[] roomTypes = {"King", "Twin", "Deluxe", "Single", "Queen", "Double", "Suite", "Standard"};
-        int randomIndex = new Random().nextInt(roomTypes.length);
-        return roomTypes[randomIndex];
     }
 
     /**
@@ -115,9 +111,9 @@ public class guiHotel extends javax.swing.JFrame {
      * @param hotel
      */
     private void renderList() {
-
+        
         for (int i = 0; i < this.hotel.getDaftarKamar().size(); i++) {
-            if ((this.filterType.contains(this.hotel.getDaftarKamar().get(i).getTipeKamar())) && (this.bookType.contains(this.hotel.getDaftarKamar().get(i).isStatus()))) {
+            if ((this.filterType.contains(this.hotel.getDaftarKamar().get(i).getTipeKamar())) && (this.bookType.contains(this.hotel.getDaftarKamar().get(i).isStatus()))){
                 innerRoomPanel.add(new roomPanel(this.hotel.getDaftarKamar().get(i), hotel));
             }
         }
@@ -185,40 +181,16 @@ public class guiHotel extends javax.swing.JFrame {
                         JTextField email = new JTextField();
                         JDateChooser dateCheckIn = new JDateChooser();
                         JDateChooser dateCheckOut = new JDateChooser();
-                        DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-                        JComboBox comboBox = new JComboBox((Vector) listTamu);
-                        int result = 0;
-                        int init = 1;
+                        DateFormat formatDate = new SimpleDateFormat();
+                        JComboBox comboBox = new JComboBox((Vector) listTamu); 
+                        
                         comboBox.setSelectedIndex(0);
-//                            comboBox.setSelectedIndex
-                        if (init == 1) {
-                            Tamu selectedTamu = (Tamu) comboBox.getSelectedItem();
-                            firstName.setEnabled(false);
-                            firstName.setText(selectedTamu.getNama());
-                            noTelepon.setEnabled(false);
-                            noTelepon.setText(selectedTamu.getNoTelepon());
-                            email.setEnabled(false);
-                            email.setText(selectedTamu.getEmail());
-                        }
-
-                        comboBox.addActionListener((event) -> {
-
-                            Tamu selectedTamu = (Tamu) comboBox.getSelectedItem();
-                            firstName.setEnabled(false);
-                            firstName.setText(selectedTamu.getNama());
-                            noTelepon.setEnabled(false);
-                            noTelepon.setText(selectedTamu.getNoTelepon());
-                            email.setEnabled(false);
-                            email.setText(selectedTamu.getEmail());
-                        });
-                        System.out.println(comboBox.getSelectedItem());
-
-//                        comboBox.addActionListener(this);
+                        comboBox.addActionListener(this);
+                        
                         final JComponent[] inputs = new JComponent[]{
-                            new JLabel("Select Tamu"),
+                          
+                            new JLabel("Nama"),
                             comboBox,
-                            new JLabel("Name"),
-                            firstName,
                             new JLabel("No. Telp"),
                             noTelepon,
                             new JLabel("Email"),
@@ -227,8 +199,7 @@ public class guiHotel extends javax.swing.JFrame {
                             dateCheckIn,
                             new JLabel("Tanggal Check Out : "),
                             dateCheckOut,};
-                        result = JOptionPane.showConfirmDialog(null, inputs, "My custom dialog", JOptionPane.PLAIN_MESSAGE);
-
+                        int result = JOptionPane.showConfirmDialog(null, inputs, "My custom dialog", JOptionPane.PLAIN_MESSAGE);
                         if (result == JOptionPane.OK_OPTION) {
                             System.out.println("You entered "
                                     + firstName.getText() + ", "
@@ -236,23 +207,16 @@ public class guiHotel extends javax.swing.JFrame {
                                     + email.getText() + ", "
                                     + formatDate.format(dateCheckIn.getDate())
                                     + formatDate.format(dateCheckOut.getDate()));
-
+                            
                             int index = comboBox.getSelectedIndex();
                             Tamu t = listTamu.get(index);
-
-                            boolean res = hotel.pesanKamar(t, room, LocalDate.parse(formatDate.format(dateCheckIn.getDate())), LocalDate.parse(formatDate.format(dateCheckOut.getDate())));
-                            if (res == true) {
-                                JOptionPane.showMessageDialog(rootPane, "Berhasil");
-                                logField.setText(hotel.toString());
-                            } else {
-                                JOptionPane.showMessageDialog(rootPane, "Gagal Booking!");
-                            }
+                            
+                            hotel.pesanKamar(t,room,LocalDate.now(),LocalDate.of(2023, Month.OCTOBER, 30));
+                            logField.setText(hotel.toString());
                         } else {
                             System.out.println("User canceled / closed the dialog, result = " + result);
-                            JOptionPane.showMessageDialog(null, "Cancelled");
-
                         }
-
+                        
 //                        if (firstName.getText() != null && noTelepon.getText() != null && email.getText() != null && dateCheckIn.getDate() != null && dateCheckOut.getDate() != null) {
 ////                            
 ////                            Tamu detailTamu = new Tamu(firstName.getText(), "Details Hidden", noTelepon.getText() , email.getText());
@@ -260,6 +224,7 @@ public class guiHotel extends javax.swing.JFrame {
 ////                            hotel.pesanKamar(book);
 //
 //                        }
+
 //                          String name = JOptionPane.showInputDialog("What is your name?");
 //                          JOptionPane.showMessageDialog(getParent(), "Hello " + name + '!');
 //                        hotel.pesanKamar(index);
@@ -288,7 +253,7 @@ public class guiHotel extends javax.swing.JFrame {
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         listRoomPanel = new javax.swing.JPanel();
@@ -532,15 +497,15 @@ public class guiHotel extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold>//GEN-END:initComponents
 
-    private void labelSearchActionPerformed(java.awt.event.ActionEvent evt) {                                            
+    private void labelSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_labelSearchActionPerformed
         // TODO add your handling code here:
 
 
-    }                                           
+    }//GEN-LAST:event_labelSearchActionPerformed
 
-    private void typeTwinActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void typeTwinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeTwinActionPerformed
         if (typeTwin.isSelected()) {
             this.filterType.add("Twin");
             deleteList();
@@ -550,9 +515,9 @@ public class guiHotel extends javax.swing.JFrame {
             deleteList();
             renderList();
         }
-    }                                        
+    }//GEN-LAST:event_typeTwinActionPerformed
 
-    private void typeKingActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void typeKingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeKingActionPerformed
         if (typeKing.isSelected()) {
             this.filterType.add("King");
             deleteList();
@@ -562,9 +527,9 @@ public class guiHotel extends javax.swing.JFrame {
             deleteList();
             renderList();
         }
-    }                                        
+    }//GEN-LAST:event_typeKingActionPerformed
 
-    private void typeQueenActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    private void typeQueenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeQueenActionPerformed
         if (typeQueen.isSelected()) {
             this.filterType.add("Queen");
             deleteList();
@@ -574,9 +539,9 @@ public class guiHotel extends javax.swing.JFrame {
             deleteList();
             renderList();
         }
-    }                                         
+    }//GEN-LAST:event_typeQueenActionPerformed
 
-    private void typeDeluxeActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void typeDeluxeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeDeluxeActionPerformed
         if (typeDeluxe.isSelected()) {
             this.filterType.add("Deluxe");
             deleteList();
@@ -586,9 +551,9 @@ public class guiHotel extends javax.swing.JFrame {
             deleteList();
             renderList();
         }
-    }                                          
+    }//GEN-LAST:event_typeDeluxeActionPerformed
 
-    private void typeSingleActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void typeSingleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeSingleActionPerformed
         if (typeSingle.isSelected()) {
             this.filterType.add("Single");
             deleteList();
@@ -598,24 +563,24 @@ public class guiHotel extends javax.swing.JFrame {
             deleteList();
             renderList();
         }
-    }                                          
+    }//GEN-LAST:event_typeSingleActionPerformed
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-    }                                         
+    }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void filterBookedActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    private void filterBookedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterBookedActionPerformed
         // TODO add your handling code here:
-        if (filterBooked.isSelected()) {
+        if (filterBooked.isSelected()){
             this.bookType.add(true);
             deleteList();
             renderList();
-        } else {
+        }else{
             this.bookType.remove(true);
             deleteList();
             renderList();
         }
-    }                                            
+    }//GEN-LAST:event_filterBookedActionPerformed
 
     /**
      * @param args the command line arguments
@@ -654,7 +619,7 @@ public class guiHotel extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify                     
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSearch;
     private javax.swing.JPanel filterBookPanel;
     private javax.swing.JCheckBox filterBooked;
@@ -673,5 +638,5 @@ public class guiHotel extends javax.swing.JFrame {
     private javax.swing.JCheckBox typeQueen;
     private javax.swing.JCheckBox typeSingle;
     private javax.swing.JCheckBox typeTwin;
-    // End of variables declaration                   
+    // End of variables declaration//GEN-END:variables
 }
