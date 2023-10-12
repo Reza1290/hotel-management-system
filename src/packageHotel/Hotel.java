@@ -96,6 +96,15 @@ public class Hotel {
         return false;
     }
     
+    /**
+     * [ID] Melakukan Pemesanan Kamar
+     * [EN] For Booking a room
+     * @param detailTamu identitas tamu
+     * @param room informasi kamar
+     * @param dateCheckIn tanggal Pemsanan
+     * @param dateCheckOut tanggal Keluar kamar
+     * @return mengembalikan nilai True Jika Berhasil
+     */
     public boolean pesanKamar(Tamu detailTamu, Room room, LocalDate dateCheckIn, LocalDate dateCheckOut){
         if( !this.isRoomBooked(room) && dateCheckIn.isBefore(dateCheckOut)){
             Pemesanan booked = new Pemesanan(detailTamu,LocalDate.now(), dateCheckOut, room);

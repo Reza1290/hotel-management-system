@@ -120,7 +120,7 @@ public class guiHotel extends javax.swing.JFrame {
         revalidate();
         repaint();
     }
-
+    
     /**
      * Fungsi untuk membersihkan rendered List Function to delete rendered List
      *
@@ -147,7 +147,6 @@ public class guiHotel extends javax.swing.JFrame {
             setLayout(new GridLayout(4, 1));
             
             JButton setStatus = new JButton();
-//            setStatus.setPreferredSize(new Dimension(20,100));
 
             JLabel noKamar = new JLabel("<html> <h1 >No." + room.getNomorKamar() + "</h1></html>", JLabel.CENTER);
             JLabel statusKamar = new JLabel("", JLabel.CENTER);
@@ -185,33 +184,31 @@ public class guiHotel extends javax.swing.JFrame {
                         dateCheckOut.setMinSelectableDate(new Date());
 
                         DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-                        JComboBox comboBox = new JComboBox((Vector) listTamu);
+                        JComboBox comboBox = new JComboBox((Vector)listTamu);
                         
-                        int result = 0;
-                        int init = 1;
+                        /**
+                         * Membuat Selected Item Pertama ke Item Dengan Index- 0
+                         */
                         comboBox.setSelectedIndex(0);
                         
-                        if (init == 1) {
-                            Tamu selectedTamu = (Tamu) comboBox.getSelectedItem();
+                        
+                            Tamu firstTamu = (Tamu) comboBox.getSelectedItem();
                             firstName.setEnabled(false);
-                            firstName.setText(selectedTamu.getNama());
+                            firstName.setText(firstTamu.getNama());
                             noTelepon.setEnabled(false);
-                            noTelepon.setText(selectedTamu.getNoTelepon());
+                            noTelepon.setText(firstTamu.getNoTelepon());
                             email.setEnabled(false);
-                            email.setText(selectedTamu.getEmail());
-                        }
+                            email.setText(firstTamu.getEmail());
+                        
                         
                         comboBox.addActionListener((event) -> {
-                            
                             Tamu selectedTamu = (Tamu) comboBox.getSelectedItem();
-                            firstName.setEnabled(false);
+
                             firstName.setText(selectedTamu.getNama());
-                            noTelepon.setEnabled(false);
                             noTelepon.setText(selectedTamu.getNoTelepon());
-                            email.setEnabled(false);
                             email.setText(selectedTamu.getEmail());
                         });
-                        System.out.println(comboBox.getSelectedItem());
+                            
 
                         final JComponent[] inputs = new JComponent[]{
                             new JLabel("Select Tamu"),
@@ -228,8 +225,8 @@ public class guiHotel extends javax.swing.JFrame {
                             dateCheckOut,
                         };
                         
-                        result = JOptionPane.showConfirmDialog(null, inputs, "My custom dialog", JOptionPane.PLAIN_MESSAGE);
-
+                        int result = JOptionPane.showConfirmDialog(null, inputs, "My custom dialog", JOptionPane.PLAIN_MESSAGE);
+                        
                         if (result == JOptionPane.OK_OPTION) {
                             System.out.println("You entered "
                                     + firstName.getText() + ", "
@@ -239,9 +236,9 @@ public class guiHotel extends javax.swing.JFrame {
                                     + formatDate.format(dateCheckOut.getDate()));
                             
                             int index = comboBox.getSelectedIndex();
-                            Tamu t = listTamu.get(index);
-
-                            boolean res = hotel.pesanKamar(t, room, LocalDate.parse(formatDate.format(dateCheckIn.getDate())), LocalDate.parse(formatDate.format(dateCheckOut.getDate())));
+                            Tamu detailTamu = listTamu.get(index);
+                            
+                            boolean res = hotel.pesanKamar(detailTamu, room, LocalDate.parse(formatDate.format(dateCheckIn.getDate())), LocalDate.parse(formatDate.format(dateCheckOut.getDate())));
                             if (res == true) {
                                 JOptionPane.showMessageDialog(rootPane, "Berhasil");
                                 logField.setText(hotel.toString());
