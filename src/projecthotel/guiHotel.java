@@ -59,7 +59,7 @@ public class guiHotel extends javax.swing.JFrame {
         initComponents();
         labelSearch.setEnabled(false);
         logField.setEditable(false);
-        
+
         namaLabel.setText("HOTEL " + this.hotel.getNamaHotel());
         jalanLabel.setText(this.hotel.getAlamat());
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
@@ -76,7 +76,9 @@ public class guiHotel extends javax.swing.JFrame {
 
     }
 
-
+    /**
+     * fungsi untuk menambahkan data pemesanan kamar dan tamu hotel
+     */
     private void inputData() {
         Room[] rooms = new Room[25];
         for (int i = 0; i < rooms.length; i++) {
@@ -103,6 +105,10 @@ public class guiHotel extends javax.swing.JFrame {
         this.listTamu.addAll(tamuList);
     }
 
+    /**
+     *
+     * @return mengembalikan tipe room hotel secara random
+     */
     private String getRandomRoomType() {
         String[] roomTypes = {"King", "Twin", "Deluxe", "Single", "Queen", "Double", "Suite", "Standard"};
         int randomIndex = new Random().nextInt(roomTypes.length);
