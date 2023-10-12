@@ -7,9 +7,9 @@ package packageHotel;
 /**
  *
  * @author 
- * + Muhamad Reza Muktasib (312250024)
- * + Shofira
- * + Zahro
+ * + Muhamad Reza Muktasib (3122500204)
+ * + Shofira Izza Nurrohmah (3122500026)
+ * + Zahrotul Hidayah (3122500004)
  */
 public class Tamu {
     private String nama;
@@ -23,6 +23,10 @@ public class Tamu {
         this.alamat = "";
         this.noTelepon = "+62" + Math.random();
         this.email = this.nama + "@hotel.com";
+    }
+    
+    public Tamu(int x) {
+        this.nama = "Select Name";
     }
     
     public Tamu(String nama) {
@@ -43,7 +47,9 @@ public class Tamu {
     public String getNama() {
         return nama;
     }
-
+    
+    
+    
     public void setNama(String nama) {
         this.nama = nama;
     }
@@ -71,6 +77,13 @@ public class Tamu {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        return "Tamu{" + "nama=" + nama + ", email=" + email + '}';
+    }
+    
+    
     
     
     
