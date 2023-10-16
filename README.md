@@ -9,7 +9,7 @@ OOP JAVA + JFRAME GUI For Hotel Management System
 
 ### Dependencies
 
-* This Project need JCalendar-1.4 to run
+* This Project need JCalendar-1.4 to run ( open folder dependencies and move it )
 * Using JCalendar For JDateChooser ( Element )
 
 ### Installing
