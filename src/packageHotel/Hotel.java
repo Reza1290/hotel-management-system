@@ -7,17 +7,13 @@ package packageHotel;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
- *
- * @author Nitro
- */
-/**
  * Kelas Hotel merepresentasikan sebuah hotel dengan nama dan alamat.
+ * 
+ * @author Reza1290
  */
 public class Hotel {
 
@@ -26,11 +22,8 @@ public class Hotel {
     private List<Room> daftarKamar;
     private List<Pemesanan> bookedRooms;
 
-
-
     /**
-     * Konstruktor untuk membuat objek Hotel dengan nama hotel. default max
-     * kamar = 5
+     * Konstruktor untuk membuat objek Hotel dengan nama hotel.
      *
      * @param hotelName Nama hotel.
      */
@@ -45,7 +38,6 @@ public class Hotel {
     /**
      * Konstruktor untuk membuat objek Hotel dengan nama hotel dan alamat.
      *
-     * default max kamar = 5
      *
      * @param hotelName Nama hotel.
      * @param alamat Alamat hotel.
@@ -56,9 +48,9 @@ public class Hotel {
         this.alamat = alamat;
         this.daftarKamar = new LinkedList<Room>();
         this.bookedRooms = new LinkedList<Pemesanan>();
- 
+
     }
-    
+
     /**
      * Menambahkan Kamar, Mengisi detail kamar
      *
@@ -80,55 +72,69 @@ public class Hotel {
     public boolean tambahKamar(Room room) {
         return daftarKamar.add(room);
     }
-    
-    
-    
-    public boolean isRoomBooked(Room room){
+
+    /**
+     * Memeriksa status pemesanan kamar.
+     *
+     * @param room Objek Room yang akan diperiksa status pemesanannya.
+     * @return true jika kamar sudah dipesan (status = true), false jika belum
+     * dipesan (status = false).
+     */
+    public boolean isRoomBooked(Room room) {
         return room.isStatus();
     }
-    
-    
-    public boolean pesanKamar(Pemesanan book){
-        if( !this.isRoomBooked(book.getRoom())){
+
+    /**
+     * Memesan kamar dengan menggunakan objek Pemesanan.
+     *
+     * @param book Objek Pemesanan yang mewakili pemesanan kamar yang ingin
+     * dilakukan.
+     * @return true jika pemesanan berhasil dilakukan, false jika gagal (kamar
+     * sudah dipesan).
+     */
+    public boolean pesanKamar(Pemesanan book) {
+        if (!this.isRoomBooked(book.getRoom())) {
             this.bookedRooms.add(book);
             return true;
         }
         return false;
     }
-    
+
     /**
-     * [ID] Melakukan Pemesanan Kamar
-     * [EN] For Booking a room
-     * @param detailTamu identitas tamu
-     * @param room informasi kamar
-     * @param dateCheckIn tanggal Pemsanan
-     * @param dateCheckOut tanggal Keluar kamar
-     * @return mengembalikan nilai True Jika Berhasil
+     * Membuat pemesanan kamar oleh seorang tamu dengan detail tertentu.
+     *
+     * @param detailTamu Objek Tamu yang berisi informasi tentang tamu yang
+     * memesan kamar.
+     * @param room Objek Room yang mewakili kamar yang ingin dipesan.
+     * @param dateCheckIn Tanggal check-in yang diinginkan oleh tamu.
+     * @param dateCheckOut Tanggal check-out yang diinginkan oleh tamu.
+     * @return true jika pemesanan berhasil dilakukan, false jika gagal.
      */
-    public boolean pesanKamar(Tamu detailTamu, Room room, LocalDate dateCheckIn, LocalDate dateCheckOut){
-        if( !this.isRoomBooked(room) && dateCheckIn.isBefore(dateCheckOut)){
-            Pemesanan booked = new Pemesanan(detailTamu,LocalDate.now(), dateCheckOut, room);
+    public boolean pesanKamar(Tamu detailTamu, Room room, LocalDate dateCheckIn, LocalDate dateCheckOut) {
+        if (!this.isRoomBooked(room) && dateCheckIn.isBefore(dateCheckOut)) {
+            Pemesanan booked = new Pemesanan(detailTamu, LocalDate.now(), dateCheckOut, room);
             booked.getRoom().setStatus(true); // Make it Booked
-            
+
             this.bookedRooms.add(booked);
             System.out.println(this.toString());
             return true;
         }
         return false;
     }
-    
-    
+
     /**
-     * Mendapatkan detail bookedRooms!
+     * Mengambil detail pemesanan untuk kamar dengan nomor tertentu.
      *
-     * @param noKamar
-     * @return True Jika ditemukan
-     * 
+     * @param noKamar Nomor kamar yang ingin dicari dalam pemesanan.
+     * @return Objek Pemesanan yang mewakili detail pemesanan kamar yang dicari.
+     * Jika tidak ada pemesanan yang cocok atau kamar tidak tersedia, maka null
+     * dikembalikan
+     *
      */
     public Pemesanan getBookedDetails(int noKamar) {
-        
-        for(int i = 0; i < bookedRooms.size(); i++) {
-            if(bookedRooms.get(i).getRoom().getNomorKamar() == noKamar && bookedRooms.get(i).getRoom().isStatus()) {
+
+        for (int i = 0; i < bookedRooms.size(); i++) {
+            if (bookedRooms.get(i).getRoom().getNomorKamar() == noKamar && bookedRooms.get(i).getRoom().isStatus()) {
                 return bookedRooms.get(i);
             }
         }
@@ -136,14 +142,15 @@ public class Hotel {
     }
 
     /**
-     * Menghapus BookedRoooms (Menghapus Penjadwalan)
+     * Menghapus pemesanan kamar berdasarkan nomor kamar.
      *
-     * @param noKamar
-     * @return True Jika Berhasil Hapus
+     * @param noKamar Nomor kamar yang akan dihapus dari daftar pemesanan.
+     * @return true jika pemesanan berhasil dihapus, false jika tidak ada
+     * pemesanan dengan nomor kamar tersebut.
      */
     public boolean removeBookedRoom(int noKamar) {
-        for(int i = 0; i < bookedRooms.size(); i++) {
-            if(bookedRooms.get(i).getRoom().getNomorKamar() == noKamar && bookedRooms.get(i).getRoom().isStatus()) {
+        for (int i = 0; i < bookedRooms.size(); i++) {
+            if (bookedRooms.get(i).getRoom().getNomorKamar() == noKamar && bookedRooms.get(i).getRoom().isStatus()) {
                 bookedRooms.get(i).getRoom().setStatus(false);
                 bookedRooms.remove(i);
                 return true;
@@ -159,17 +166,14 @@ public class Hotel {
      * @return detail Kamar
      */
     public Room getDetailsKamar(int noKamar) {
-        for(int i = 0; i < daftarKamar.size(); i++) {
-            if(daftarKamar.get(i).getNomorKamar() == noKamar && daftarKamar.get(i).isStatus()) {
+        for (int i = 0; i < daftarKamar.size(); i++) {
+            if (daftarKamar.get(i).getNomorKamar() == noKamar && daftarKamar.get(i).isStatus()) {
                 return daftarKamar.get(i);
             }
         }
-        return null; 
+        return null;
     }
-    
-    
-    
-    
+
     /**
      * Mendapatkan Seluruh Kamar
      *
@@ -215,9 +219,6 @@ public class Hotel {
         this.alamat = alamat;
     }
 
-    
-    
-
     /**
      * Representasi string dari objek Hotel.
      *
@@ -226,20 +227,18 @@ public class Hotel {
     @Override
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-//        return "Hotel{" + "namaHotel=" + namaHotel + ", alamat=" + alamat + ", daftarKamar=" + daftarKamar + ", bookedRooms=" +  + '}';
         String str = "Hotel" + namaHotel + "\n" + "\n";
-        for(int i = 0 ; i < bookedRooms.size(); i++){
+        for (int i = 0; i < bookedRooms.size(); i++) {
             Pemesanan p = bookedRooms.get(i);
-            str = str + LocalTime.now().format(dtf)+ " : ";
+            str = str + LocalTime.now().format(dtf) + " : ";
             str = str + p.getTamu().getNama() + ", " + p.getTamu().getEmail() + "\nNo. ";
             str = str + p.getRoom().getNomorKamar() + ", In=";
             str = str + p.getTanggalCheckIn() + ", Out=";
             str = str + p.getTanggalCheckOut() + "\n" + "\n";
-            
+
         }
-        
+
         return str;
     }
 
-    
 }

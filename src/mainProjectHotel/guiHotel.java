@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package projecthotel;
+package mainProjectHotel;
 
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
@@ -60,6 +60,9 @@ public class guiHotel extends javax.swing.JFrame {
         renderComponents();
     }
 
+    /**
+     * Inisialisasi Awal Tampilan GUI
+     */
     private void initDisplay() {
         labelSearch.setEnabled(false);
         logField.setEditable(false);
@@ -73,6 +76,11 @@ public class guiHotel extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Mengisi data awal berupa kamar-kamar dalam hotel dan daftar tamu. Secara
+     * otomatis menghasilkan dan menambahkan kamar-kamar ke dalam hotel, serta
+     * menciptakan daftar tamu dan menambahkannya ke daftar tamu hotel.
+     */
     private void generateData() {
         Room[] rooms = new Room[25];
         for (int i = 0; i < rooms.length; i++) {
@@ -95,10 +103,17 @@ public class guiHotel extends javax.swing.JFrame {
             Tamu user = new Tamu(name, address, phoneNumber, email);
             tamuList.add(user);
         }
-
+        
         this.listTamu.addAll(tamuList);
     }
 
+    /**
+     * Metode ini digunakan untuk menghasilkan secara acak jenis kamar dari
+     * daftar jenis kamar yang tersedia.
+     *
+     * @return Jenis kamar acak yang diambil dari daftar jenis kamar yang telah
+     * ditentukan.
+     */
     private String getRandomRoomType() {
         String[] roomTypes = {"King", "Twin", "Deluxe", "Single", "Queen", "Double", "Suite", "Standard"};
         int randomIndex = new Random().nextInt(roomTypes.length);
@@ -106,7 +121,8 @@ public class guiHotel extends javax.swing.JFrame {
     }
 
     /**
-     * Ini adalah Fungsi untuk meRender Komponen ( Looping Component )
+     * Ini adalah Fungsi untuk meRender Komponen ( Looping Component ) ->dynamic
+     * Component
      *
      * @param hotel
      */
@@ -120,7 +136,7 @@ public class guiHotel extends javax.swing.JFrame {
         revalidate();
         repaint();
     }
-    
+
     /**
      * Fungsi untuk membersihkan rendered List Function to delete rendered List
      *
@@ -132,11 +148,10 @@ public class guiHotel extends javax.swing.JFrame {
         repaint();
     }
 
-    /*    
     /**
-     * Class
-     * Custom Panel For Container Render
-     * Wadah untuk tempat Rendering
+     * Class Custom Panel For Container Render Wadah untuk tempat Rendering
+     * 
+     * Inheritence from JPanel
      */
     private class roomPanel extends JPanel {
 
@@ -145,10 +160,10 @@ public class guiHotel extends javax.swing.JFrame {
             setPreferredSize(new Dimension(200, 200));
             setBorder(BorderFactory.createLineBorder(Color.black, 2, true));
             setLayout(new GridLayout(4, 1));
-            
+
             JButton setStatus = new JButton();
 
-            JLabel noKamar = new JLabel("<html> <h1 >No." + room.getNomorKamar() + "</h1></html>", JLabel.CENTER);
+            JLabel noKamar = new JLabel("<html><h1 >No." + room.getNomorKamar() + "</h1></html>", JLabel.CENTER);
             JLabel statusKamar = new JLabel("", JLabel.CENTER);
             JLabel hargaKamar = new JLabel("<html>Price : $ " + room.getHarga()
                     + "/night <br>Tipe : " + room.getTipeKamar() + "</html>", JLabel.CENTER);
@@ -160,15 +175,14 @@ public class guiHotel extends javax.swing.JFrame {
                 setStatus.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-//                        hotel.removeBookedRoom(room.getNomorKamar());
-//                        System.out.println("UnBook" + index);
-//                        statusKamar.setText("Ready");
-//                        setStatus.setText("Book");
-//                        deleteList();
-//                        renderList(hotel);
+                        hotel.removeBookedRoom(room.getNomorKamar());
+                        statusKamar.setText("Ready");
+                        setStatus.setText("Book");
+                        deleteList();
+                        renderComponents();
                     }
                 });
-//                setStatus.doClick();
+                setStatus.doClick();
             } else {
                 statusKamar.setText("Ready");
                 setStatus.setText("Book");
@@ -184,23 +198,21 @@ public class guiHotel extends javax.swing.JFrame {
                         dateCheckOut.setMinSelectableDate(new Date());
 
                         DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-                        JComboBox comboBox = new JComboBox((Vector)listTamu);
-                        
+                        JComboBox comboBox = new JComboBox((Vector) listTamu);
+
                         /**
                          * Membuat Selected Item Pertama ke Item Dengan Index- 0
                          */
                         comboBox.setSelectedIndex(0);
-                        
-                        
-                            Tamu firstTamu = (Tamu) comboBox.getSelectedItem();
-                            firstName.setEnabled(false);
-                            firstName.setText(firstTamu.getNama());
-                            noTelepon.setEnabled(false);
-                            noTelepon.setText(firstTamu.getNoTelepon());
-                            email.setEnabled(false);
-                            email.setText(firstTamu.getEmail());
-                        
-                        
+
+                        Tamu firstTamu = (Tamu) comboBox.getSelectedItem();
+                        firstName.setEnabled(false);
+                        firstName.setText(firstTamu.getNama());
+                        noTelepon.setEnabled(false);
+                        noTelepon.setText(firstTamu.getNoTelepon());
+                        email.setEnabled(false);
+                        email.setText(firstTamu.getEmail());
+
                         comboBox.addActionListener((event) -> {
                             Tamu selectedTamu = (Tamu) comboBox.getSelectedItem();
 
@@ -208,7 +220,6 @@ public class guiHotel extends javax.swing.JFrame {
                             noTelepon.setText(selectedTamu.getNoTelepon());
                             email.setText(selectedTamu.getEmail());
                         });
-                            
 
                         final JComponent[] inputs = new JComponent[]{
                             new JLabel("Select Tamu"),
@@ -222,11 +233,10 @@ public class guiHotel extends javax.swing.JFrame {
                             new JLabel("Tanggal Check In : "),
                             dateCheckIn,
                             new JLabel("Tanggal Check Out : "),
-                            dateCheckOut,
-                        };
-                        
+                            dateCheckOut,};
+
                         int result = JOptionPane.showConfirmDialog(null, inputs, "My custom dialog", JOptionPane.PLAIN_MESSAGE);
-                        
+
                         if (result == JOptionPane.OK_OPTION) {
                             System.out.println("You entered "
                                     + firstName.getText() + ", "
@@ -234,10 +244,10 @@ public class guiHotel extends javax.swing.JFrame {
                                     + email.getText() + ", "
                                     + formatDate.format(dateCheckIn.getDate())
                                     + formatDate.format(dateCheckOut.getDate()));
-                            
+
                             int index = comboBox.getSelectedIndex();
                             Tamu detailTamu = listTamu.get(index);
-                            
+
                             boolean res = hotel.pesanKamar(detailTamu, room, LocalDate.parse(formatDate.format(dateCheckIn.getDate())), LocalDate.parse(formatDate.format(dateCheckOut.getDate())));
                             if (res == true) {
                                 JOptionPane.showMessageDialog(rootPane, "Berhasil");
@@ -256,8 +266,7 @@ public class guiHotel extends javax.swing.JFrame {
                     }
                 });
             }
-            
-            
+
             add(noKamar);
             add(statusKamar);
             add(hargaKamar);

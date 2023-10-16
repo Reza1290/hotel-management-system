@@ -1,4 +1,4 @@
-    /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -7,34 +7,33 @@ package packageHotel;
 import java.time.LocalDate;
 
 /**
- *
+ * Kelas yang merepresentasikan pemesanan dalam reservasi hotel.
+ * 
  * @author Nitro
  */
 public class Pemesanan {
+
     private Tamu tamu;
     private LocalDate tanggalCheckIn;
     private LocalDate tanggalCheckOut;
     private Room kamar;
-    
-    
+
     /**
      * Konstruktor untuk membuat objek Pemesanan.
      *
-     * @param tamu          Details tamu yang melakukan pemesanan.
+     * @param tamu Details tamu yang melakukan pemesanan.
      * @param tanggalCheckIn Tanggal check-in.
      * @param tanggalCheckout Tanggal check-out.
-     * @param room           Kamar yang dipesan oleh tamu.
+     * @param room Kamar yang dipesan oleh tamu.
      */
-    
     public Pemesanan(Tamu tamu, LocalDate tanggalCheckIn, LocalDate tanggalCheckout, Room room) {
         this.tamu = tamu;
         this.tanggalCheckIn = tanggalCheckIn;
         this.tanggalCheckOut = tanggalCheckout;
         this.kamar = room;
-        
+
     }
-     
-    
+
     /**
      * Mendapatkan nama tamu yang melakukan pemesanan.
      *
@@ -112,10 +111,19 @@ public class Pemesanan {
      *
      * @return Total harga pemesanan.
      */
-    public double hitungTotalHarga(){
+    public double hitungTotalHarga() {
         int jumlahHari = (int) tanggalCheckIn.until(tanggalCheckOut).getDays();
         double hargaTotal = jumlahHari * kamar.getHarga();
         return hargaTotal;
     }
-    
+
+    /**
+     * Representasi string dari objek Pemesanan.
+     *
+     * @return String yang berisi informasi tentang objek Pemesanan.
+     */
+    @Override
+    public String toString() {
+        return "Pemesanan{" + "tamu=" + tamu + ", tanggalCheckIn=" + tanggalCheckIn + ", tanggalCheckOut=" + tanggalCheckOut + ", kamar=" + kamar + '}';
+    }
 }

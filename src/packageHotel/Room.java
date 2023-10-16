@@ -5,23 +5,23 @@
 package packageHotel;
 
 /**
+ * Kelas yang merepresentasikan kamar dalam reservasi hotel.
  *
  * @author Nitro
  */
 public class Room {
+
     private int nomorKamar;
     private String tipeKamar;
     private double harga;
     private boolean status;
-    
-   
-    
-   /**
+
+    /**
      * Konstruktor untuk membuat objek Room.
      *
      * @param nomorKamar Nomor kamar.
-     * @param tipeKamar  Tipe kamar.
-     * @param harga      Harga kamar.
+     * @param tipeKamar Tipe kamar.
+     * @param harga Harga kamar.
      */
     public Room(int nomorKamar, String tipeKamar, double harga) {
         this.nomorKamar = nomorKamar;
@@ -111,11 +111,5 @@ public class Room {
     public String toString() {
         return "Room{" + "nomorKamar=" + nomorKamar + ", tipeKamar=" + tipeKamar + ", \nharga=" + harga + ", status=" + status + '}';
     }
-    
-    
-    
-    
-    
-    
-    
+
 }
