@@ -15,14 +15,17 @@ OOP JAVA + JFRAME GUI For Hotel Management System
 ### Installing
 
 * Clone The Repository on Your Project Directory
-``` git clone https://github.com/Reza1290/hotel-management-system.git
+``` 
+	git clone https://github.com/Reza1290/hotel-management-system.git
 ```
 * Add to Your Library JCalendar-1.4.jar
 
+```
 projectHotel
  L Source Packages
  L Libraries
    L jcalendar-1.4.jar
+```
 
 ### Run
 
